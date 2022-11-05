@@ -1,46 +1,100 @@
-# Getting Started with Create React App
+# tsxecharts
+React component wrapper for ECharts based on TypeScript.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 项目设计
+1. 参考[vuecharts3](https://github.com/lloydzhou/vuecharts)对echarts进行封装
+2. 将echarts官方抽象的`series`以及其他的一些组件抽象成为`React`的组件使用，每一个组件负责管理自己的配置项。
+3. 这些配置项统一的合并到`Chart`画布组件。再统一的通过`chart.setOption`更新到图表上
 
-## Available Scripts
 
-In the project directory, you can run:
+## 安装
+```
+yarn add tsxecharts
+```
 
-### `npm start`
+## Components
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. 定义一个`Chart`组件作为画布
+2. 将[echarts官方配置项](https://echarts.apache.org/zh/option.html#title)每一个配置项使用统一的工厂函数构造成`React Component`
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
+## DEMO
+```
+import 'echarts'
+import Echarts from 'vuecharts3'
+import { Chart, Line, Bar, Title, Grid, XAxis, YAxis, Tooltip } from 'tsxecharts'
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+function App() {
 
-### `npm run build`
+  return (
+    <div className="App">
+      <Chart width={800}>
+        <Grid top={100} />
+        <Title text="顶部标题" subtext="顶部小标题" left="center" top={10} />
+        <Title text="底部标题" top="bottom" left="center" />
+        <Bar name="data1" data={[0.32, 0.45, 0.2]} />
+        <Bar name="data2" data={[0.2, 0.5, 0.3]} />
+        <Line name="data2" data={[0.2, 0.5, 0.3]} />
+        <XAxis data={['x1', 'x2', 'x3']} />
+        <YAxis />
+        <Tooltip trigger="axis" />
+      </Chart>
+    </div>
+  )
+}
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![image](https://user-images.githubusercontent.com/1826685/174950158-e5f8258d-b0b9-4c39-be90-7eefbb7667f0.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## 自定义组件
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+1. 通过自定义组件实现官方切换图像的[example](https://echarts.apache.org/examples/zh/editor.html?c=treemap-sunburst-transition)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+function TreemapSunburstTransition() {
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+  const [type, setType] = useState('')
+  const [data, setData] = useState()
+  const interval = useRef()
+  const id = 'echarts-package-size'
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+  useEffect(() => {
+    const url = "https://fastly.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data/asset/data/echarts-package-size.json"
+    fetch(url).then(res => res.json()).then(data => {
+      setData(data.children)
+      let type = ''
+      console.log('data.value', data.children)
+      interval.current && clearInterval(interval.current);
+      // @ts-ignore
+      interval.current = setInterval(function () {
+        setType(type = type === 'treemap' ? 'sunburst' : 'treemap')
+        console.log('state.type', type)
+      }, 3000);
+    })
+    return () => interval.current && clearInterval(interval.current)
+  }, [])
 
-## Learn More
+  if (type === 'treemap') {
+    return <Treemap id={id} animationDurationUpdate={1000} roam={false} nodeClick={undefined} data={data} universalTransition label={{show: true}} breadcrumb={{show: false}} />
+  }
+  return <Sunburst id={id} radius={['20%', '90%']} animationDurationUpdate={1000} nodeClick={undefined} data={data} universalTransition label={{show: false}} itemStyle={{borderWidth: 1, borderColor: 'rgba(255,255,255,.5)'}} />
+}
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+function App() {
+
+  return (
+    <div className="App">
+      <Chart width={800}>
+        <TreemapSunburstTransition />
+      </Chart>
+    </div>
+  )
+}
+```
+
+![](https://fastly.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data/thumb/treemap-sunburst-transition.webp?_v_=1655181358610)
+
+
