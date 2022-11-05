@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import 'echarts'
 import './App.css';
-import { Chart } from './lib'
-import { Line, Bar, Title, Grid, XAxis, YAxis, Tooltip, VisualMap, Heatmap, Sunburst, Treemap } from './lib'
+import {
+  Chart, Line, Bar, Title, Grid, XAxis, YAxis, Tooltip,
+  VisualMap, Heatmap, Sunburst, Treemap
+} from './lib'
 
 
 function TreemapSunburstTransition() {
