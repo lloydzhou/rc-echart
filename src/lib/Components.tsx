@@ -86,7 +86,7 @@ export interface ContainerProps {
 
 export type EFC<T> = FC<Partial<T & ContainerProps>>
 
-function defineComponent<T>(name: string) {
+export function defineComponent<T>(name: string) {
   // @ts-ignore
   const type = defaultTypeMap[name] || (name.charAt(0).toLowerCase() + name.slice(1))
   const Component: EFC<T> = (props) => {

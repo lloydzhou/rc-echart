@@ -33,7 +33,6 @@ export const Chart: FC<Partial<EChartsCoreOption & ChartProps>> = (props) => {
   const chart = useRef<ECharts | null>()
 
   const setOption = (key: string, option: any) => {
-    console.log('setOption', key, option)
     // 1. 移除option中无用的key
     Object.keys(option).forEach(name => {
       if (option[name] === undefined || option[name] === null) {
@@ -70,7 +69,6 @@ export const Chart: FC<Partial<EChartsCoreOption & ChartProps>> = (props) => {
   // 避免了一个子组件有变化（例如series中的数据）
   // 提交的时候影响到另一个子组件（例如xAxis）
   const commit = throttle(useCallback(() => {
-    console.log('chart', chart, options)
     if (chart.current) {
       // 提交画布更新的时候，使用replaceMerge选项
       // @ts-ignore
@@ -95,7 +93,6 @@ export const Chart: FC<Partial<EChartsCoreOption & ChartProps>> = (props) => {
     }
     instance.on('rendered', rendered)
     instance.on('finished', finished)
-    console.log('init chart', instance)
     chart.current = instance
     // 使用默认的option初始化画布
     commit()
