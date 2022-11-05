@@ -1,5 +1,5 @@
 # tsxecharts
-React component wrapper for ECharts based on TypeScript.
+React component wrapper for ECharts based on TypeScript.  
 <a href="https://www.npmjs.com/package/tsxecharts"><img alt="NPM Package" src="https://img.shields.io/npm/v/tsxecharts.svg?style=flat-square"></a>
 <a href="https://www.npmjs.com/package/tsxecharts"><img alt="NPM Size" src="https://img.shields.io/bundlephobia/minzip/tsxecharts"></a>
 <a href="https://www.npmjs.com/package/tsxecharts"><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/tsxecharts?logo=npm&style=flat-square"></a>
