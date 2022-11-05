@@ -6,6 +6,8 @@ import {
   VisualMap, Heatmap, Sunburst, Treemap
 } from './lib'
 
+import { ECharts } from 'echarts/core'
+
 
 function TreemapSunburstTransition() {
 
@@ -54,9 +56,14 @@ function App() {
     return [item[1], item[0], item[2] || '-'];
   })
 
+  const chartRef = useRef<ECharts | null>(null)
+  useEffect(() => {
+    console.log('chartRef', chartRef)
+  }, [])
+
   return (
     <div className="App">
-      <Chart width={800}>
+      <Chart width={800} ref={chartRef}>
         <Grid top={100} />
         <Title text="顶部标题" subtext="顶部小标题" left="center" top={10} />
         <Title text="底部标题" top="bottom" left="center" />

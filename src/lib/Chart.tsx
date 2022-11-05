@@ -1,5 +1,5 @@
-import { FC, createContext, useContext, createRef, useCallback, useEffect, useRef } from 'react';
-import {ECharts, EChartsCoreOption, init as initChart, throttle } from 'echarts/core'
+import React, { createContext, useContext, createRef, useCallback, useEffect, useRef, forwardRef } from 'react';
+import { ECharts, EChartsCoreOption, init as initChart, throttle } from 'echarts/core'
 import { addListener, removeListener } from "resize-detector";
 
 export const ChartContext = createContext({})
@@ -15,7 +15,7 @@ interface ChartProps {
   lazyUpdate: boolean
 }
 
-export const Chart: FC<Partial<EChartsCoreOption & ChartProps>> = (props) => {
+export const Chart = forwardRef<ECharts | null, Partial<EChartsCoreOption & ChartProps>>((props, ref) => {
 
   const  {
     children, className='', style={},
@@ -82,9 +82,9 @@ export const Chart: FC<Partial<EChartsCoreOption & ChartProps>> = (props) => {
   }, [lazyUpdate]), 50, true)
 
   // @ts-ignore
-  const rendered = () => onRendered && onRendered(chart)
+  const rendered = () => onRendered && onRendered(chart.current)
   // @ts-ignore
-  const finished = () => onFinished && onFinished(chart)
+  const finished = () => onFinished && onFinished(chart.current)
 
   const init = useCallback(() => {
     const instance = initChart(container.current as HTMLDivElement, theme as string | object)
@@ -94,6 +94,12 @@ export const Chart: FC<Partial<EChartsCoreOption & ChartProps>> = (props) => {
     instance.on('rendered', rendered)
     instance.on('finished', finished)
     chart.current = instance
+    if (typeof ref === "function") {
+      ref(instance)
+    } else if (ref) {
+      // @ts-ignore
+      ref.current = instance
+    }
     // 使用默认的option初始化画布
     commit()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -139,7 +145,7 @@ export const Chart: FC<Partial<EChartsCoreOption & ChartProps>> = (props) => {
       </div>
     </ChartContext.Provider>
   )
-}
+})
 
 export const useChartContext = () => useContext(ChartContext)
 
