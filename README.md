@@ -22,7 +22,12 @@ yarn add tsxecharts
 2. 将[echarts官方配置项](https://echarts.apache.org/zh/option.html#title)每一个配置项使用统一的工厂函数构造成`React Component`
 
 
+##  [online demo](https://codesandbox.io/s/tsxecharts-demo-r9wi86?file=/src/App.tsx)
+![image](https://user-images.githubusercontent.com/1826685/200152751-e63cfeab-ce63-4254-b6dd-9e5ea53c7ea1.png)
+
+
 ## DEMO
+
 ```
 import 'echarts'
 import Echarts from 'vuecharts3'
