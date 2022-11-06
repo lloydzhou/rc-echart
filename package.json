@@ -1,6 +1,6 @@
 {
   "name": "tsxecharts",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "React component wrapper for ECharts based on TypeScript.",
   "repository": {
     "type": "git",
@@ -45,7 +45,7 @@
     "resize-detector": "^0.3.0"
   },
   "scripts": {
-    "lib": "tsc --jsx react-jsx src/lib/index.ts --esModuleInterop --skipLibCheck --allowSyntheticDefaultImports -d --outDir lib",
+    "lib": "tsc --jsx react-jsx src/lib/index.ts --esModuleInterop --skipLibCheck --allowSyntheticDefaultImports -t es5 -d --outDir lib",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
