@@ -86,18 +86,18 @@ export interface ContainerProps {
 
 export type EFC<T> = FC<Partial<T & ContainerProps>>
 
-export function defineComponent<T>(name: string) {
+export function defineComponent<T>(name: string, type: string = '', key: string = '') {
   // @ts-ignore
-  const type = defaultTypeMap[name] || (name.charAt(0).toLowerCase() + name.slice(1))
+  type = type || defaultTypeMap[name] || (name.charAt(0).toLowerCase() + name.slice(1))
+  key = key || (series.indexOf(name) > -1
+    ? 'series'
+    : visualMap.indexOf(name) > -1
+      ? 'visualMap'
+      : dataZoom.indexOf(name) > -1
+        ? 'dataZoom'
+        : name.charAt(0).toLowerCase() + name.slice(1))
   const Component: EFC<T> = (props) => {
     const { id: pid, type: ptype, ...other } = props
-    const key = series.indexOf(name) > -1
-      ? 'series'
-      : visualMap.indexOf(name) > -1
-        ? 'visualMap'
-        : dataZoom.indexOf(name) > -1
-          ? 'dataZoom'
-          : name.charAt(0).toLowerCase() + name.slice(1)
     const [id,] = useState(pid || uniqueId())
     // @ts-ignore
     const { removeOption, setOption } = useChartContext()
