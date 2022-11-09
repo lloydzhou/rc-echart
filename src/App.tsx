@@ -3,7 +3,9 @@ import 'echarts'
 import './App.css';
 import {
   Chart, Line, Bar, Title, Grid, XAxis, YAxis, Tooltip,
-  VisualMap, Heatmap, Sunburst, Treemap
+  VisualMap, Heatmap, Sunburst, Treemap,
+  Group,
+  Rect, Text,
 } from './lib'
 
 import { ECharts } from 'echarts/core'
@@ -65,6 +67,10 @@ function App() {
     <div className="App">
       <Chart width={800} ref={chartRef}>
         <Grid top={100} />
+        <Group left="30" top="20">
+          <Rect left="center" top="center" shape={{width: 400, height: 50}} style={{fill: 'rgba(0,0,0,.3)'}} />
+          <Text left="center" top="center" style={{text: "ECHARTS LINE CHART", font: "bold 26px sans-serif"}} z={100} />
+        </Group>
         <Title text="顶部标题" subtext="顶部小标题" left="center" top={10} />
         <Title text="底部标题" top="bottom" left="center" />
         <Bar name="data1" data={[0.32, 0.45, 0.2]} />
@@ -84,9 +90,9 @@ function App() {
         <Heatmap name="Punch Card" data={data} label={{show: true}} emphasis={{itemStyle: {shadowBlur: 10, shadowColor: 'rgba(0, 0, 0, 0.5)'}}} />
       </Chart>
       <h2>切换图形</h2>
-      <Chart width={800}>
+      {/*<Chart width={800}>
         <TreemapSunburstTransition />
-      </Chart>
+      </Chart>*/}
     </div>
   );
 }

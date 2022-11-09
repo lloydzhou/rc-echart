@@ -1,4 +1,36 @@
 import type {
+  //
+  TitleOption,
+  LegendOption,
+  ScrollableLegendOption,
+  GridOption,
+  XAXisOption,
+  YAXisOption,
+  PolarOption,
+  RadiusAxisOption,
+  AngleAxisOption,
+  RadarOption,
+  // DataZoom
+  InsideDataZoomOption,
+  SliderDataZoomOption,
+  // visualmap
+  ContinousVisualMapOption,
+  PiecewiseVisualMapOption,
+
+  TooltipOption,
+  AxisPointerOption,
+  ToolboxComponentOption,
+  BrushOption,
+  GeoOption,
+  ParallelCoordinateSystemOption,
+  // ParallelAxisOption, // can not import
+  SingleAxisOption,
+  TimelineOption,
+  // Graphic 这里只能导出一种类型
+  GraphicComponentLooseOption,
+  CalendarOption,
+  DatasetOption,
+  AriaOption,
   // series
   LineSeriesOption,
   BarSeriesOption,
@@ -22,38 +54,10 @@ import type {
   ThemeRiverSeriesOption,
   SunburstSeriesOption,
   CustomSeriesOption,
-  //
-  ContinousVisualMapOption,
-  PiecewiseVisualMapOption,
-  //
-  InsideDataZoomOption,
-  SliderDataZoomOption,
-  //
-  TitleOption,
-  LegendOption,
-  ScrollableLegendOption,
-  GridOption,
-  XAXisOption,
-  YAXisOption,
-  RadiusAxisOption,
-  AngleAxisOption,
-  PolarOption,
-  // RadarOption,
-  TooltipOption,
-  AxisPointerOption,
-  ToolboxComponentOption,
-  AriaOption,
-  // ParallelAxisOption,
-  BrushOption,
-  GeoOption,
-  SingleAxisOption,
-  TimelineOption,
-  CalendarOption,
-  DatasetOption,
 } from "echarts/types/dist/shared";
 
-import { FC, useEffect, useState, useCallback } from "react";
-import { useChartContext } from "./Chart";
+import { ReactChild, FC, useEffect, useState, useCallback, useRef } from "react";
+import { ChartContext, useChartContext } from "./Chart";
 
 export const uniqueId = () =>
   Date.now().toString(36) + Math.random().toString(36).substring(2);
@@ -102,6 +106,7 @@ const defaultTypeMap = {
 export interface ContainerProps {
   id?: string;
   type?: string;
+  children?: ReactChild | ReactChild[];
 }
 
 export type EFC<T> = FC<Partial<T & ContainerProps>>;
@@ -130,12 +135,26 @@ export function defineComponent<T>(
   type = type || defaultType(name);
   key = key || getKeyByName(name);
   const Component: EFC<T> = (props) => {
-    const { id: pid, type: ptype, ...other } = props;
+    const { id: pid, type: ptype, children, ...other } = props;
     const [id] = useState(pid || uniqueId());
     // @ts-ignore
     const { removeOption, setOption } = useChartContext();
+    // Graphic
+    const childrenOptions = useRef<GraphicComponentLooseOption[]>([]);
+    // Graphic.elements.Group需要支持children
+    const setChildrenOption = (key: string, option: any) => {
+      // 尝试先移除一下相同的id，避免出现相同的id配置项
+      removeChildrenOption(key, option.id);
+      childrenOptions.current.push(option);
+      update()
+    }
+    const removeChildrenOption = (key: string, id: string) => {
+      childrenOptions.current = childrenOptions.current.filter((i: any) => i.id !== id)
+      update()
+    }
+
     const update = useCallback(() => {
-      const options = { ...other, type: ptype || type || undefined, id };
+      const options = { ...other, children: name == 'Graphic' ? childrenOptions.current : undefined, type: ptype || type || undefined, id };
       setOption(key, options);
       // eslint-disable-next-line
     }, [id, key, other, ptype, setOption]);
@@ -144,7 +163,12 @@ export function defineComponent<T>(
       return () => removeOption(key, id);
       // eslint-disable-next-line
     }, [key, id, removeOption, update]);
-    return null;
+
+    return name == 'Graphic' ? (
+      <ChartContext.Provider value={{ setOption: setChildrenOption, removeOption: removeChildrenOption }}>
+        {children}
+      </ChartContext.Provider>
+    ) : null;
   };
   Component.displayName = name;
   return Component;
@@ -158,10 +182,13 @@ export const XAxis: EFC<XAXisOption> = defineComponent<XAXisOption>("XAxis");
 export const YAxis: EFC<YAXisOption> = defineComponent<YAXisOption>("YAxis");
 export const Polar: EFC<PolarOption> = defineComponent<PolarOption>("Polar");
 // Radar和series.radar重合
-export const RadarAxis: EFC<RadiusAxisOption> =
-  defineComponent<RadiusAxisOption>("RadarAxis");
+export const RadiusAxis: EFC<RadiusAxisOption> =
+  defineComponent<RadiusAxisOption>("RadiusAxis");
 export const AngleAxis: EFC<AngleAxisOption> =
   defineComponent<AngleAxisOption>("AngleAxis");
+export const RadarAxis: EFC<RadarOption> =
+  defineComponent<RadarOption>("RadarAxis");
+// DataZoom
 export const DataZoom: EFC<InsideDataZoomOption & SliderDataZoomOption> =
   defineComponent<InsideDataZoomOption & SliderDataZoomOption>("DataZoom");
 export const Inside: EFC<InsideDataZoomOption> =
@@ -188,13 +215,36 @@ export const Toolbox: EFC<ToolboxComponentOption> =
   defineComponent<ToolboxComponentOption>("Toolbox");
 export const Brush: EFC<BrushOption> = defineComponent<BrushOption>("Brush");
 export const Geo: EFC<GeoOption> = defineComponent<GeoOption>("Geo");
-// Parallel: [], // 这个和series.parallel重合了
-// ParallelAxis: keys<ParallelAxisOption>(),
+// Parallel: [], // 这个和series.parallel重合了  ParallelCoordinates
+export const ParallelCoordinates: EFC<ParallelCoordinateSystemOption> =
+  defineComponent<ParallelCoordinateSystemOption>("Parallel", '', 'parllel');
+// can not import ParallelAxisOption
+export const ParallelAxis: EFC<ParallelSeriesOption['parallelAxisDefault']> =
+  defineComponent<ParallelSeriesOption['parallelAxisDefault']>("ParallelAxis");
 export const SingleAxis: EFC<SingleAxisOption> =
   defineComponent<SingleAxisOption>("SingleAxis");
 export const Timeline: EFC<TimelineOption> =
   defineComponent<TimelineOption>("Timeline");
-// TODO Graphic: [],
+// TODO Graphic: 这里可以尝试把Graphic里面的暴露出来
+function defineGraphicComponent(name: string): EFC<GraphicComponentLooseOption> {
+  return defineComponent<GraphicComponentLooseOption>('Graphic', name, 'graphic')
+}
+
+export const Graphic = defineGraphicComponent('graphic')
+export const Group = defineGraphicComponent('group')
+export const Image = defineGraphicComponent('image')
+export const Text = defineGraphicComponent('text')
+export const Rect = defineGraphicComponent('rect')
+export const Circle = defineGraphicComponent('circle')
+export const Ring = defineGraphicComponent('ring')
+export const Sector = defineGraphicComponent('sector')
+export const Arc = defineGraphicComponent('arc')
+export const Polygon = defineGraphicComponent('polygon')
+export const Polyline = defineGraphicComponent('polyline')
+// graphic.elements-line 不能和series.line重名
+export const GraphicLine = defineGraphicComponent('line')
+export const BezierCurve = defineGraphicComponent('bezierCurve')
+
 export const Calendar: EFC<CalendarOption> =
   defineComponent<CalendarOption>("Calendar");
 export const Dataset: EFC<DatasetOption> =
