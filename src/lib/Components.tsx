@@ -16,7 +16,6 @@ import type {
   // visualmap
   ContinousVisualMapOption,
   PiecewiseVisualMapOption,
-
   TooltipOption,
   AxisPointerOption,
   ToolboxComponentOption,
@@ -56,7 +55,14 @@ import type {
   CustomSeriesOption,
 } from "echarts/types/dist/shared";
 
-import { ReactChild, FC, useEffect, useState, useCallback, useRef } from "react";
+import {
+  ReactChild,
+  FC,
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+} from "react";
 import { ChartContext, useChartContext } from "./Chart";
 
 export const uniqueId = () =>
@@ -146,15 +152,22 @@ export function defineComponent<T>(
       // 尝试先移除一下相同的id，避免出现相同的id配置项
       removeChildrenOption(key, option.id);
       childrenOptions.current.push(option);
-      update()
-    }
+      update();
+    };
     const removeChildrenOption = (key: string, id: string) => {
-      childrenOptions.current = childrenOptions.current.filter((i: any) => i.id !== id)
-      update()
-    }
+      childrenOptions.current = childrenOptions.current.filter(
+        (i: any) => i.id !== id
+      );
+      update();
+    };
 
     const update = useCallback(() => {
-      const options = { ...other, children: name == 'Graphic' ? childrenOptions.current : undefined, type: ptype || type || undefined, id };
+      const options = {
+        ...other,
+        children: name == "Graphic" ? childrenOptions.current : undefined,
+        type: ptype || type || undefined,
+        id,
+      };
       setOption(key, options);
       // eslint-disable-next-line
     }, [id, key, other, ptype, setOption]);
@@ -164,8 +177,13 @@ export function defineComponent<T>(
       // eslint-disable-next-line
     }, [key, id, removeOption, update]);
 
-    return name == 'Graphic' ? (
-      <ChartContext.Provider value={{ setOption: setChildrenOption, removeOption: removeChildrenOption }}>
+    return name == "Graphic" ? (
+      <ChartContext.Provider
+        value={{
+          setOption: setChildrenOption,
+          removeOption: removeChildrenOption,
+        }}
+      >
         {children}
       </ChartContext.Provider>
     ) : null;
@@ -217,33 +235,39 @@ export const Brush: EFC<BrushOption> = defineComponent<BrushOption>("Brush");
 export const Geo: EFC<GeoOption> = defineComponent<GeoOption>("Geo");
 // Parallel: [], // 这个和series.parallel重合了  ParallelCoordinates
 export const ParallelCoordinates: EFC<ParallelCoordinateSystemOption> =
-  defineComponent<ParallelCoordinateSystemOption>("Parallel", '', 'parllel');
+  defineComponent<ParallelCoordinateSystemOption>("Parallel", "", "parllel");
 // can not import ParallelAxisOption
-export const ParallelAxis: EFC<ParallelSeriesOption['parallelAxisDefault']> =
-  defineComponent<ParallelSeriesOption['parallelAxisDefault']>("ParallelAxis");
+export const ParallelAxis: EFC<ParallelSeriesOption["parallelAxisDefault"]> =
+  defineComponent<ParallelSeriesOption["parallelAxisDefault"]>("ParallelAxis");
 export const SingleAxis: EFC<SingleAxisOption> =
   defineComponent<SingleAxisOption>("SingleAxis");
 export const Timeline: EFC<TimelineOption> =
   defineComponent<TimelineOption>("Timeline");
 // TODO Graphic: 这里可以尝试把Graphic里面的暴露出来
-function defineGraphicComponent(name: string): EFC<GraphicComponentLooseOption> {
-  return defineComponent<GraphicComponentLooseOption>('Graphic', name, 'graphic')
+function defineGraphicComponent(
+  name: string
+): EFC<GraphicComponentLooseOption> {
+  return defineComponent<GraphicComponentLooseOption>(
+    "Graphic",
+    name,
+    "graphic"
+  );
 }
 
-export const Graphic = defineGraphicComponent('graphic')
-export const Group = defineGraphicComponent('group')
-export const Image = defineGraphicComponent('image')
-export const Text = defineGraphicComponent('text')
-export const Rect = defineGraphicComponent('rect')
-export const Circle = defineGraphicComponent('circle')
-export const Ring = defineGraphicComponent('ring')
-export const Sector = defineGraphicComponent('sector')
-export const Arc = defineGraphicComponent('arc')
-export const Polygon = defineGraphicComponent('polygon')
-export const Polyline = defineGraphicComponent('polyline')
+export const Graphic = defineGraphicComponent("graphic");
+export const Group = defineGraphicComponent("group");
+export const Image = defineGraphicComponent("image");
+export const Text = defineGraphicComponent("text");
+export const Rect = defineGraphicComponent("rect");
+export const Circle = defineGraphicComponent("circle");
+export const Ring = defineGraphicComponent("ring");
+export const Sector = defineGraphicComponent("sector");
+export const Arc = defineGraphicComponent("arc");
+export const Polygon = defineGraphicComponent("polygon");
+export const Polyline = defineGraphicComponent("polyline");
 // graphic.elements-line 不能和series.line重名
-export const GraphicLine = defineGraphicComponent('line')
-export const BezierCurve = defineGraphicComponent('bezierCurve')
+export const GraphicLine = defineGraphicComponent("line");
+export const BezierCurve = defineGraphicComponent("bezierCurve");
 
 export const Calendar: EFC<CalendarOption> =
   defineComponent<CalendarOption>("Calendar");
