@@ -164,7 +164,7 @@ export function defineComponent<T>(
     const update = useCallback(() => {
       const options = {
         ...other,
-        children: name == "Graphic" ? childrenOptions.current : undefined,
+        children: name === "Graphic" ? childrenOptions.current : undefined,
         type: ptype || type || undefined,
         id,
       };
@@ -177,7 +177,7 @@ export function defineComponent<T>(
       // eslint-disable-next-line
     }, [key, id, removeOption, update]);
 
-    return name == "Graphic" ? (
+    return name === "Graphic" ? (
       <ChartContext.Provider
         value={{
           setOption: setChildrenOption,
