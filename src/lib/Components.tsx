@@ -106,26 +106,29 @@ export interface ContainerProps {
 
 export type EFC<T> = FC<Partial<T & ContainerProps>>;
 
+const lower = (name: string) => name.charAt(0).toLowerCase() + name.slice(1);
+
+function defaultType(name: string) {
+  // @ts-ignore
+  return defaultTypeMap[name as keyof defaultTypeMap] || lower(name);
+}
+function getKeyByName(name: string) {
+  return series.indexOf(name) > -1
+    ? "series"
+    : visualMap.indexOf(name) > -1
+    ? "visualMap"
+    : dataZoom.indexOf(name) > -1
+    ? "dataZoom"
+    : lower(name);
+}
+
 export function defineComponent<T>(
   name: string,
   type: string = "",
   key: string = ""
 ) {
-  // @ts-ignore
-  type =
-    type ||
-    // @ts-ignore
-    defaultTypeMap[name as keyof defaultTypeMap] ||
-    name.charAt(0).toLowerCase() + name.slice(1);
-  key =
-    key ||
-    (series.indexOf(name) > -1
-      ? "series"
-      : visualMap.indexOf(name) > -1
-      ? "visualMap"
-      : dataZoom.indexOf(name) > -1
-      ? "dataZoom"
-      : name.charAt(0).toLowerCase() + name.slice(1));
+  type = type || defaultType(name);
+  key = key || getKeyByName(name);
   const Component: EFC<T> = (props) => {
     const { id: pid, type: ptype, ...other } = props;
     const [id] = useState(pid || uniqueId());
@@ -134,11 +137,12 @@ export function defineComponent<T>(
     const update = useCallback(() => {
       const options = { ...other, type: ptype || type || undefined, id };
       setOption(key, options);
-      // console.log('update', key, options, removeOption, setOption)
+      // eslint-disable-next-line
     }, [id, key, other, ptype, setOption]);
     useEffect(() => {
       update();
       return () => removeOption(key, id);
+      // eslint-disable-next-line
     }, [key, id, removeOption, update]);
     return null;
   };
