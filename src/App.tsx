@@ -90,9 +90,9 @@ function App() {
         <Heatmap name="Punch Card" data={data} label={{show: true}} emphasis={{itemStyle: {shadowBlur: 10, shadowColor: 'rgba(0, 0, 0, 0.5)'}}} />
       </Chart>
       <h2>切换图形</h2>
-      {/*<Chart width={800}>
+      <Chart width={800}>
         <TreemapSunburstTransition />
-      </Chart>*/}
+      </Chart>
     </div>
   );
 }
