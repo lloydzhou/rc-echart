@@ -113,7 +113,7 @@ export interface ContainerProps {
   id?: string;
   type?: string;
   children?: ReactChild | ReactChild[];
-  action?: 'merge' | 'replace' | 'remove';
+  action?: "merge" | "replace" | "remove";
 }
 
 export type EFC<T> = FC<Partial<T & ContainerProps>>;
@@ -162,30 +162,34 @@ export function defineComponent<T>(
       update();
     };
 
-    const update = throttle(useCallback(() => {
-      const options = {
-        ...other,
-        type: ptype || type || undefined,
-        id,
-      };
-      if (name === 'Graphic') {
-        if (type === 'group') {
+    const update = throttle(
+      useCallback(() => {
+        const options = {
+          ...other,
+          type: ptype || type || undefined,
+          id,
+        };
+        if (name === "Graphic") {
+          if (type === "group") {
+            // @ts-ignore
+            options["children"] = childrenOptions.current;
+          }
           // @ts-ignore
-          options['children'] = childrenOptions.current
+          options["$action"] = action || "merge";
         }
-        // @ts-ignore
-        options['$action'] = action || 'merge'
-      }
-      setOption(key, options);
-      // eslint-disable-next-line
-    }, [id, key, other, ptype, setOption]), 40, true);
+        setOption(key, options);
+        // eslint-disable-next-line
+      }, [id, key, other, ptype, setOption]),
+      40,
+      true
+    );
     useEffect(() => {
       update();
       return () => removeOption(key, id);
       // eslint-disable-next-line
     }, [key, id, removeOption, update]);
 
-    return name === "Graphic" && type === 'group' ? (
+    return name === "Graphic" && type === "group" ? (
       <ChartContext.Provider
         value={{
           setOption: setChildrenOption,
