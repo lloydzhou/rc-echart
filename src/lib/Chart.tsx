@@ -101,7 +101,7 @@ export const Chart = forwardRef<
         // @ts-ignore
         chart.current.setOption(options.current, {
           lazyUpdate,
-          replaceMerge: Array.from(replaceMerge.current),
+          // replaceMerge: Array.from(replaceMerge.current),
         });
         // 提交画布更新之后，重置replaceMerge
         replaceMerge.current = new Set();

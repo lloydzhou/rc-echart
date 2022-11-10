@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import "echarts";
+import "echarts-gl"
 import "./App.css";
 import {
   Chart,
@@ -17,6 +18,14 @@ import {
   Group,
   Rect,
   Text,
+} from "./lib";
+import {
+  XAxis3D,
+  YAxis3D,
+  ZAxis3D,
+  Grid3D,
+  Surface,
+  Bar3D,
 } from "./lib";
 
 import { ECharts } from "echarts/core";
@@ -290,6 +299,22 @@ function App() {
     console.log("chartRef", chartRef);
   }, []);
 
+  const equation = {
+    x: {
+      step: 0.05,
+      min: -3,
+      max: 3
+    },
+    y: {
+      step: 0.05,
+      min: -3,
+      max: 3
+    },
+    z: function (x: number, y: number) {
+      return (Math.sin(x * x + y * y) * x) / 3.14;
+    }
+  }
+
   return (
     <div className="App">
       <Chart width={800} ref={chartRef}>
@@ -352,6 +377,25 @@ function App() {
       <h2>切换图形</h2>
       <Chart width={800}>
         <TreemapSunburstTransition />
+      </Chart>
+      <h2>surface-wave</h2>
+      <Chart width={800}>
+        <VisualMap inRange={{ color: ['#313695',
+        '#4575b4',
+        '#74add1',
+        '#abd9e9',
+        '#e0f3f8',
+        '#ffffbf',
+        '#fee090',
+        '#fdae61',
+        '#f46d43',
+        '#d73027',
+        '#a50026'] }} show={false} dimension={2} min={-1} max={1} />
+        <XAxis3D data={hours} />
+        <YAxis3D data={days} />
+        <ZAxis3D />
+        <Grid3D boxHeight={40} />
+        <Bar3D data={data.map(i => ({value: [i[1], i[0], i[2]] }))} shading="lambert" />
       </Chart>
     </div>
   );
