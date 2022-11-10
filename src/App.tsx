@@ -67,9 +67,9 @@ function App() {
     <div className="App">
       <Chart width={800} ref={chartRef}>
         <Grid top={100} />
-        <Group left="30" top="20">
-          <Rect left="center" top="center" shape={{width: 400, height: 50}} style={{fill: 'rgba(0,0,0,.3)'}} />
-          <Text left="center" top="center" style={{text: "ECHARTS LINE CHART", font: "bold 26px sans-serif"}} z={100} />
+        <Group bottom="110" right="110" rotation={Math.PI / 4} bounding="raw">
+          <Rect top="center" left="center" shape={{width: 400, height: 50}} style={{fill: 'rgba(0,0,0,.3)'}} z={100} />
+          <Text top="center" left="center" style={{text: 'ECHARTS GRAPHIC TEXT', font: 'bold 26px sans-serif', fill: '#FFFFFF'}} z={100} />
         </Group>
         <Title text="顶部标题" subtext="顶部小标题" left="center" top={10} />
         <Title text="底部标题" top="bottom" left="center" />

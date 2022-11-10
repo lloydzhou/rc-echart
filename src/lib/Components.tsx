@@ -54,7 +54,7 @@ import type {
   SunburstSeriesOption,
   CustomSeriesOption,
 } from "echarts/types/dist/shared";
-
+import { throttle } from "echarts/core";
 import {
   ReactChild,
   FC,
@@ -113,6 +113,7 @@ export interface ContainerProps {
   id?: string;
   type?: string;
   children?: ReactChild | ReactChild[];
+  action?: 'merge' | 'replace' | 'remove';
 }
 
 export type EFC<T> = FC<Partial<T & ContainerProps>>;
@@ -141,7 +142,7 @@ export function defineComponent<T>(
   type = type || defaultType(name);
   key = key || getKeyByName(name);
   const Component: EFC<T> = (props) => {
-    const { id: pid, type: ptype, children, ...other } = props;
+    const { id: pid, type: ptype, children, action, ...other } = props;
     const [id] = useState(pid || uniqueId());
     // @ts-ignore
     const { removeOption, setOption } = useChartContext();
@@ -161,23 +162,30 @@ export function defineComponent<T>(
       update();
     };
 
-    const update = useCallback(() => {
+    const update = throttle(useCallback(() => {
       const options = {
         ...other,
-        children: name === "Graphic" ? childrenOptions.current : undefined,
         type: ptype || type || undefined,
         id,
       };
+      if (name === 'Graphic') {
+        if (type === 'group') {
+          // @ts-ignore
+          options['children'] = childrenOptions.current
+        }
+        // @ts-ignore
+        options['$action'] = action || 'merge'
+      }
       setOption(key, options);
       // eslint-disable-next-line
-    }, [id, key, other, ptype, setOption]);
+    }, [id, key, other, ptype, setOption]), 40, true);
     useEffect(() => {
       update();
       return () => removeOption(key, id);
       // eslint-disable-next-line
     }, [key, id, removeOption, update]);
 
-    return name === "Graphic" ? (
+    return name === "Graphic" && type === 'group' ? (
       <ChartContext.Provider
         value={{
           setOption: setChildrenOption,

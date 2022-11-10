@@ -1,6 +1,6 @@
 {
   "name": "tsxecharts",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "React component wrapper for ECharts based on TypeScript.",
   "repository": {
     "type": "git",
