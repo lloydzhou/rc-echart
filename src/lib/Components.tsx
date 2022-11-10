@@ -152,7 +152,10 @@ export function defineComponent<T>(
     const setChildrenOption = (key: string, option: any) => {
       // 尝试先移除一下相同的id，避免出现相同的id配置项
       removeChildrenOption(key, option.id);
-      childrenOptions.current.push(option);
+      // Graphic.Group支持使用children配置，但是实际到echarts内部却是统一在elements数组里面
+      // 尝试使用group.z赋值给option.z
+      // @ts-ignore
+      childrenOptions.current.push({ ...option, z: option.z || other.z });
       update();
     };
     const removeChildrenOption = (key: string, id: string) => {
