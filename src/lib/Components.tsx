@@ -54,7 +54,7 @@ import type {
   SunburstSeriesOption,
   CustomSeriesOption,
 } from "echarts/types/dist/shared";
-import { ParallelAxisOption } from 'echarts/types/src/coord/parallel/AxisModel'
+import { ParallelAxisOption } from "echarts/types/src/coord/parallel/AxisModel";
 import { throttle } from "echarts/core";
 import {
   ReactChild,
