@@ -54,6 +54,7 @@ import type {
   SunburstSeriesOption,
   CustomSeriesOption,
 } from "echarts/types/dist/shared";
+import { ParallelAxisOption } from 'echarts/types/src/coord/parallel/AxisModel'
 import { throttle } from "echarts/core";
 import {
   ReactChild,
@@ -252,8 +253,8 @@ export const Geo: EFC<GeoOption> = defineComponent<GeoOption>("Geo");
 export const ParallelCoordinates: EFC<ParallelCoordinateSystemOption> =
   defineComponent<ParallelCoordinateSystemOption>("Parallel", "", "parllel");
 // can not import ParallelAxisOption
-export const ParallelAxis: EFC<ParallelSeriesOption["parallelAxisDefault"]> =
-  defineComponent<ParallelSeriesOption["parallelAxisDefault"]>("ParallelAxis");
+export const ParallelAxis: EFC<ParallelAxisOption> =
+  defineComponent<ParallelAxisOption>("ParallelAxis");
 export const SingleAxis: EFC<SingleAxisOption> =
   defineComponent<SingleAxisOption>("SingleAxis");
 export const Timeline: EFC<TimelineOption> =
