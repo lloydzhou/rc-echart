@@ -172,7 +172,7 @@ export function defineComponent<T>(
           type: ptype || type || undefined,
           id,
         };
-        if (name === "Graphic") {
+        if (key === "graphic") {
           if (type === "group") {
             // @ts-ignore
             options["children"] = childrenOptions.current;
@@ -192,7 +192,7 @@ export function defineComponent<T>(
       // eslint-disable-next-line
     }, [key, id, removeOption, update]);
 
-    return name === "Graphic" && type === "group" ? (
+    return key === "graphic" && type === "group" ? (
       <ChartContext.Provider
         value={{
           setOption: setChildrenOption,
@@ -231,8 +231,8 @@ export const Slider: EFC<SliderDataZoomOption> =
 
 // visualMap
 export const VisualMap: EFC<
-  ContinousVisualMapOption & PictorialBarSeriesOption
-> = defineComponent<ContinousVisualMapOption & PictorialBarSeriesOption>(
+  ContinousVisualMapOption & PiecewiseVisualMapOption
+> = defineComponent<ContinousVisualMapOption & PiecewiseVisualMapOption>(
   "VisualMap"
 );
 export const Continuous: EFC<ContinousVisualMapOption> =
@@ -263,23 +263,23 @@ function defineGraphicComponent(
   name: string
 ): EFC<GraphicComponentLooseOption> {
   return defineComponent<GraphicComponentLooseOption>(
-    "Graphic",
     name,
+    lower(name),
     "graphic"
   );
 }
 
-export const Graphic = defineGraphicComponent("graphic");
-export const Group = defineGraphicComponent("group");
-export const Image = defineGraphicComponent("image");
-export const Text = defineGraphicComponent("text");
-export const Rect = defineGraphicComponent("rect");
-export const Circle = defineGraphicComponent("circle");
-export const Ring = defineGraphicComponent("ring");
-export const Sector = defineGraphicComponent("sector");
-export const Arc = defineGraphicComponent("arc");
-export const Polygon = defineGraphicComponent("polygon");
-export const Polyline = defineGraphicComponent("polyline");
+export const Graphic = defineGraphicComponent("Graphic");
+export const Group = defineGraphicComponent("Group");
+export const Image = defineGraphicComponent("Image");
+export const Text = defineGraphicComponent("Text");
+export const Rect = defineGraphicComponent("Rect");
+export const Circle = defineGraphicComponent("Circle");
+export const Ring = defineGraphicComponent("Ring");
+export const Sector = defineGraphicComponent("Sector");
+export const Arc = defineGraphicComponent("Arc");
+export const Polygon = defineGraphicComponent("Polygon");
+export const Polyline = defineGraphicComponent("Polyline");
 // graphic.elements-line 不能和series.line重名
 export const GraphicLine = defineGraphicComponent("line");
 export const BezierCurve = defineGraphicComponent("bezierCurve");
