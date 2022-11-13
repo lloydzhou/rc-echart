@@ -54,6 +54,14 @@ import type {
   SunburstSeriesOption,
   CustomSeriesOption,
 } from "echarts/types/dist/shared";
+import {
+  GraphicComponentElementOption,
+  GraphicComponentGroupOption,
+  GraphicComponentZRPathOption, 
+  GraphicComponentImageOption,
+  // GraphicComponentTextOption,
+  GraphicComponentDisplayableOption
+} from 'echarts/types/src/component/graphic/GraphicModel'
 import { ParallelAxisOption } from "echarts/types/src/coord/parallel/AxisModel";
 import { throttle } from "echarts/core";
 import {
@@ -65,6 +73,18 @@ import {
   useRef,
 } from "react";
 import { ChartContext, useChartContext } from "./Chart";
+import { TransitionOptionMixin } from 'echarts/types/src/animation/customGraphicTransition'
+import { ElementKeyframeAnimationOption } from 'echarts/types/src/animation/customGraphicKeyframeAnimation';
+
+import { TextStyleProps, TextProps } from 'zrender/lib/graphic/Text'
+
+// copy from echarts/types/src/component/graphic/GraphicModel
+interface GraphicComponentTextOption extends Omit<GraphicComponentDisplayableOption, 'textContent' | 'textConfig'>, TransitionOptionMixin<TextProps> {
+  type?: 'text';
+  style?: TextStyleProps & TransitionOptionMixin<TextStyleProps>;
+  keyframeAnimation?: ElementKeyframeAnimationOption<TextProps> | ElementKeyframeAnimationOption<TextProps>[];
+}
+
 
 export const uniqueId = () =>
   Date.now().toString(36) + Math.random().toString(36).substring(2);
@@ -209,8 +229,8 @@ export function defineComponent<T>(
 }
 
 export const Title: EFC<TitleOption> = defineComponent<TitleOption>("Title");
-export const Legend: EFC<LegendOption & ScrollableLegendOption> =
-  defineComponent<LegendOption & ScrollableLegendOption>("Legend");
+export const Legend: EFC<LegendOption | ScrollableLegendOption> =
+  defineComponent<LegendOption | ScrollableLegendOption>("Legend");
 export const Grid: EFC<GridOption> = defineComponent<GridOption>("Grid");
 export const XAxis: EFC<XAXisOption> = defineComponent<XAXisOption>("XAxis");
 export const YAxis: EFC<YAXisOption> = defineComponent<YAXisOption>("YAxis");
@@ -223,8 +243,8 @@ export const AngleAxis: EFC<AngleAxisOption> =
 export const RadarAxis: EFC<RadarOption> =
   defineComponent<RadarOption>("RadarAxis");
 // DataZoom
-export const DataZoom: EFC<InsideDataZoomOption & SliderDataZoomOption> =
-  defineComponent<InsideDataZoomOption & SliderDataZoomOption>("DataZoom");
+export const DataZoom: EFC<InsideDataZoomOption | SliderDataZoomOption> =
+  defineComponent<InsideDataZoomOption | SliderDataZoomOption>("DataZoom");
 export const Inside: EFC<InsideDataZoomOption> =
   defineComponent<InsideDataZoomOption>("Inside");
 export const Slider: EFC<SliderDataZoomOption> =
@@ -232,8 +252,8 @@ export const Slider: EFC<SliderDataZoomOption> =
 
 // visualMap
 export const VisualMap: EFC<
-  ContinousVisualMapOption & PiecewiseVisualMapOption
-> = defineComponent<ContinousVisualMapOption & PiecewiseVisualMapOption>(
+  ContinousVisualMapOption | PiecewiseVisualMapOption
+> = defineComponent<ContinousVisualMapOption | PiecewiseVisualMapOption>(
   "VisualMap"
 );
 export const Continuous: EFC<ContinousVisualMapOption> =
@@ -260,30 +280,20 @@ export const SingleAxis: EFC<SingleAxisOption> =
 export const Timeline: EFC<TimelineOption> =
   defineComponent<TimelineOption>("Timeline");
 // TODO Graphic: 这里可以尝试把Graphic里面的暴露出来
-function defineGraphicComponent(
-  name: string
-): EFC<GraphicComponentLooseOption> {
-  return defineComponent<GraphicComponentLooseOption>(
-    name,
-    lower(name),
-    "graphic"
-  );
-}
-
-export const Graphic = defineGraphicComponent("Graphic");
-export const Group = defineGraphicComponent("Group");
-export const Image = defineGraphicComponent("Image");
-export const Text = defineGraphicComponent("Text");
-export const Rect = defineGraphicComponent("Rect");
-export const Circle = defineGraphicComponent("Circle");
-export const Ring = defineGraphicComponent("Ring");
-export const Sector = defineGraphicComponent("Sector");
-export const Arc = defineGraphicComponent("Arc");
-export const Polygon = defineGraphicComponent("Polygon");
-export const Polyline = defineGraphicComponent("Polyline");
+export const Graphic = defineComponent<GraphicComponentElementOption>("Graphic", "graphic", "graphic");
+export const Group = defineComponent<GraphicComponentGroupOption & {z?: number}>("Group", "group", "graphic");
+export const Image = defineComponent<GraphicComponentImageOption>("Image", "image", "graphic");
+export const Text = defineComponent<GraphicComponentTextOption>("Text", "text", "graphic");
+export const Rect = defineComponent<GraphicComponentZRPathOption>("Rect", "rect", "graphic");
+export const Circle = defineComponent<GraphicComponentZRPathOption>("Circle", "circle", "graphic");
+export const Ring = defineComponent<GraphicComponentZRPathOption>("Ring", "ring", "graphic");
+export const Sector = defineComponent<GraphicComponentZRPathOption>("Sector", "sector", "graphic");
+export const Arc = defineComponent<GraphicComponentZRPathOption>("Arc", "arc", "graphic");
+export const Polygon = defineComponent<GraphicComponentZRPathOption>("Polygon", "polygon", "graphic");
+export const Polyline = defineComponent<GraphicComponentZRPathOption>("Polyline", "polyline", "graphic");
 // graphic.elements-line 不能和series.line重名
-export const GraphicLine = defineGraphicComponent("line");
-export const BezierCurve = defineGraphicComponent("bezierCurve");
+export const GraphicLine = defineComponent<GraphicComponentZRPathOption>("GraphicLine", "line", "graphic");
+export const BezierCurve = defineComponent<GraphicComponentZRPathOption>("BezierCurve", "bezierCurve", "graphic");
 
 export const Calendar: EFC<CalendarOption> =
   defineComponent<CalendarOption>("Calendar");
