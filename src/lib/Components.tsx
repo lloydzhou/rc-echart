@@ -57,11 +57,11 @@ import type {
 import {
   GraphicComponentElementOption,
   GraphicComponentGroupOption,
-  GraphicComponentZRPathOption, 
+  GraphicComponentZRPathOption,
   GraphicComponentImageOption,
   // GraphicComponentTextOption,
-  GraphicComponentDisplayableOption
-} from 'echarts/types/src/component/graphic/GraphicModel'
+  GraphicComponentDisplayableOption,
+} from "echarts/types/src/component/graphic/GraphicModel";
 import { ParallelAxisOption } from "echarts/types/src/coord/parallel/AxisModel";
 import { throttle } from "echarts/core";
 import {
@@ -73,18 +73,21 @@ import {
   useRef,
 } from "react";
 import { ChartContext, useChartContext } from "./Chart";
-import { TransitionOptionMixin } from 'echarts/types/src/animation/customGraphicTransition'
-import { ElementKeyframeAnimationOption } from 'echarts/types/src/animation/customGraphicKeyframeAnimation';
+import { TransitionOptionMixin } from "echarts/types/src/animation/customGraphicTransition";
+import { ElementKeyframeAnimationOption } from "echarts/types/src/animation/customGraphicKeyframeAnimation";
 
-import { TextStyleProps, TextProps } from 'zrender/lib/graphic/Text'
+import { TextStyleProps, TextProps } from "zrender/lib/graphic/Text";
 
 // copy from echarts/types/src/component/graphic/GraphicModel
-interface GraphicComponentTextOption extends Omit<GraphicComponentDisplayableOption, 'textContent' | 'textConfig'>, TransitionOptionMixin<TextProps> {
-  type?: 'text';
+interface GraphicComponentTextOption
+  extends Omit<GraphicComponentDisplayableOption, "textContent" | "textConfig">,
+    TransitionOptionMixin<TextProps> {
+  type?: "text";
   style?: TextStyleProps & TransitionOptionMixin<TextStyleProps>;
-  keyframeAnimation?: ElementKeyframeAnimationOption<TextProps> | ElementKeyframeAnimationOption<TextProps>[];
+  keyframeAnimation?:
+    | ElementKeyframeAnimationOption<TextProps>
+    | ElementKeyframeAnimationOption<TextProps>[];
 }
-
 
 export const uniqueId = () =>
   Date.now().toString(36) + Math.random().toString(36).substring(2);
@@ -280,20 +283,70 @@ export const SingleAxis: EFC<SingleAxisOption> =
 export const Timeline: EFC<TimelineOption> =
   defineComponent<TimelineOption>("Timeline");
 // TODO Graphic: 这里可以尝试把Graphic里面的暴露出来
-export const Graphic = defineComponent<GraphicComponentElementOption>("Graphic", "graphic", "graphic");
-export const Group = defineComponent<GraphicComponentGroupOption & {z?: number}>("Group", "group", "graphic");
-export const Image = defineComponent<GraphicComponentImageOption>("Image", "image", "graphic");
-export const Text = defineComponent<GraphicComponentTextOption>("Text", "text", "graphic");
-export const Rect = defineComponent<GraphicComponentZRPathOption>("Rect", "rect", "graphic");
-export const Circle = defineComponent<GraphicComponentZRPathOption>("Circle", "circle", "graphic");
-export const Ring = defineComponent<GraphicComponentZRPathOption>("Ring", "ring", "graphic");
-export const Sector = defineComponent<GraphicComponentZRPathOption>("Sector", "sector", "graphic");
-export const Arc = defineComponent<GraphicComponentZRPathOption>("Arc", "arc", "graphic");
-export const Polygon = defineComponent<GraphicComponentZRPathOption>("Polygon", "polygon", "graphic");
-export const Polyline = defineComponent<GraphicComponentZRPathOption>("Polyline", "polyline", "graphic");
+export const Graphic = defineComponent<GraphicComponentElementOption>(
+  "Graphic",
+  "graphic",
+  "graphic"
+);
+export const Group = defineComponent<
+  GraphicComponentGroupOption & { z?: number }
+>("Group", "group", "graphic");
+export const Image = defineComponent<GraphicComponentImageOption>(
+  "Image",
+  "image",
+  "graphic"
+);
+export const Text = defineComponent<GraphicComponentTextOption>(
+  "Text",
+  "text",
+  "graphic"
+);
+export const Rect = defineComponent<GraphicComponentZRPathOption>(
+  "Rect",
+  "rect",
+  "graphic"
+);
+export const Circle = defineComponent<GraphicComponentZRPathOption>(
+  "Circle",
+  "circle",
+  "graphic"
+);
+export const Ring = defineComponent<GraphicComponentZRPathOption>(
+  "Ring",
+  "ring",
+  "graphic"
+);
+export const Sector = defineComponent<GraphicComponentZRPathOption>(
+  "Sector",
+  "sector",
+  "graphic"
+);
+export const Arc = defineComponent<GraphicComponentZRPathOption>(
+  "Arc",
+  "arc",
+  "graphic"
+);
+export const Polygon = defineComponent<GraphicComponentZRPathOption>(
+  "Polygon",
+  "polygon",
+  "graphic"
+);
+export const Polyline = defineComponent<GraphicComponentZRPathOption>(
+  "Polyline",
+  "polyline",
+  "graphic"
+);
 // graphic.elements-line 不能和series.line重名
-export const GraphicLine = defineComponent<GraphicComponentZRPathOption>("GraphicLine", "line", "graphic");
-export const BezierCurve = defineComponent<GraphicComponentZRPathOption>("BezierCurve", "bezierCurve", "graphic");
+export const GraphicLine = defineComponent<GraphicComponentZRPathOption>(
+  "GraphicLine",
+  "line",
+  "graphic"
+);
+export const BezierCurve = defineComponent<GraphicComponentZRPathOption>(
+  "BezierCurve",
+  "bezierCurve",
+  "graphic"
+);
 
 export const Calendar: EFC<CalendarOption> =
   defineComponent<CalendarOption>("Calendar");
