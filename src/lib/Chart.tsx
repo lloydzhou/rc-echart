@@ -51,8 +51,7 @@ export const Chart = forwardRef<
 
   const container = createRef<HTMLDivElement>();
 
-  const options = useRef<EChartsCoreOption>(other);
-  const replaceMerge = useRef(new Set());
+  const options = useRef(new Map());
   const chart = useRef<ECharts | null>();
 
   const setOption = (key: string, option: any) => {
@@ -63,30 +62,16 @@ export const Chart = forwardRef<
       }
     });
     // 2. 往当前的state.options中合并新的组件配置
-    if (!options.current[key]) {
-      options.current[key] = [];
-    }
-    // 尝试先移除一下相同的id，避免出现相同的id配置项
-    removeOption(key, option.id);
-    // @ts-ignore
-    options.current[key].push(option);
-    // 3. 增加replaceMerge
-    replaceMerge.current.add(key);
+    options.current.set(key, (options.current.get(key), []).concat(option))
     // 4. 提交更新到echarts
     commit();
   };
 
   const removeOption = (key: string, id: string) => {
-    if (options.current[key]) {
+    if (options.current.has(key)) {
       // 1. 移除组件配置
       // @ts-ignore
-      options.current = {
-        ...options.current,
-        // @ts-ignore
-        [key]: options.current[key].filter((i: any) => i.id !== id),
-      };
-      // 2. 增加replaceMerge
-      replaceMerge.current.add(key);
+      options.current.set(key, (options.current.get(key), []).filter((i: any) => i.id !== id))
       // 3. 提交更新到echarts
       commit();
     }
@@ -100,12 +85,19 @@ export const Chart = forwardRef<
       if (chart.current) {
         // 提交画布更新的时候，使用replaceMerge选项
         // @ts-ignore
-        chart.current.setOption(options.current, {
+        const opt = Object.fromEntries(options.current.entries())
+        console.log('options', opt, options.current)
+        chart.current.setOption(opt, {
           lazyUpdate,
-          replaceMerge: Array.from(replaceMerge.current),
+          replaceMerge: Array.from(options.current.keys()),
         });
+        // chart.current.setOption(options.current, {
+        //   lazyUpdate,
+        //   replaceMerge: Array.from(replaceMerge.current),
+        // });
         // 提交画布更新之后，重置replaceMerge
-        replaceMerge.current = new Set();
+        // options.current.clear()
+        // replaceMerge.current = new Set();
       }
     }, [lazyUpdate]),
     50,
@@ -134,6 +126,7 @@ export const Chart = forwardRef<
       // @ts-ignore
       ref.current = instance;
     }
+    Object.keys(other).map(key => setOption(key, other[key]))
     // 使用默认的option初始化画布
     commit();
     // eslint-disable-next-line react-hooks/exhaustive-deps
