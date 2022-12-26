@@ -62,7 +62,7 @@ export const Chart = forwardRef<
       }
     });
     // 2. 往当前的state.options中合并新的组件配置
-    options.current.set(key, (options.current.get(key), []).concat(option))
+    options.current.set(key, (options.current.get(key), []).concat(option));
     // 4. 提交更新到echarts
     commit();
   };
@@ -71,7 +71,10 @@ export const Chart = forwardRef<
     if (options.current.has(key)) {
       // 1. 移除组件配置
       // @ts-ignore
-      options.current.set(key, (options.current.get(key), []).filter((i: any) => i.id !== id))
+      options.current.set(
+        key,
+        (options.current.get(key), []).filter((i: any) => i.id !== id)
+      );
       // 3. 提交更新到echarts
       commit();
     }
@@ -85,8 +88,8 @@ export const Chart = forwardRef<
       if (chart.current) {
         // 提交画布更新的时候，使用replaceMerge选项
         // @ts-ignore
-        const opt = Object.fromEntries(options.current.entries())
-        console.log('options', opt, options.current)
+        const opt = Object.fromEntries(options.current.entries());
+        console.log("options", opt, options.current);
         chart.current.setOption(opt, {
           lazyUpdate,
           replaceMerge: Array.from(options.current.keys()),
@@ -126,7 +129,7 @@ export const Chart = forwardRef<
       // @ts-ignore
       ref.current = instance;
     }
-    Object.keys(other).map(key => setOption(key, other[key]))
+    Object.keys(other).map((key) => setOption(key, other[key]));
     // 使用默认的option初始化画布
     commit();
     // eslint-disable-next-line react-hooks/exhaustive-deps
