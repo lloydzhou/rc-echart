@@ -59,7 +59,7 @@ import {
   GraphicComponentGroupOption,
   GraphicComponentZRPathOption,
   GraphicComponentImageOption,
-  // GraphicComponentTextOption,
+  GraphicComponentTextOption,
   GraphicComponentDisplayableOption,
 } from "echarts/types/src/component/graphic/GraphicModel";
 import { ParallelAxisOption } from "echarts/types/src/coord/parallel/AxisModel";
@@ -75,19 +75,6 @@ import {
 import { ChartContext, useChartContext } from "./Chart";
 import { TransitionOptionMixin } from "echarts/types/src/animation/customGraphicTransition";
 import { ElementKeyframeAnimationOption } from "echarts/types/src/animation/customGraphicKeyframeAnimation";
-
-import { TextStyleProps, TextProps } from "zrender/lib/graphic/Text";
-
-// copy from echarts/types/src/component/graphic/GraphicModel
-interface GraphicComponentTextOption
-  extends Omit<GraphicComponentDisplayableOption, "textContent" | "textConfig">,
-    TransitionOptionMixin<TextProps> {
-  type?: "text";
-  style?: TextStyleProps & TransitionOptionMixin<TextStyleProps>;
-  keyframeAnimation?:
-    | ElementKeyframeAnimationOption<TextProps>
-    | ElementKeyframeAnimationOption<TextProps>[];
-}
 
 export const uniqueId = () =>
   Date.now().toString(36) + Math.random().toString(36).substring(2);
