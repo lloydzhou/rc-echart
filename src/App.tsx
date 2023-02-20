@@ -399,7 +399,7 @@ function App() {
         <ZAxis3D max={1} splitNumber={2} />
         <Grid3D boxHeight={40} viewControl={{}} />
         <Surface
-          wireframe={{show: false}}
+          wireframe={{ show: false }}
           shading="color"
           equation={equation}
         />

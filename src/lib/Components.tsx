@@ -129,7 +129,8 @@ export interface ContainerProps {
 
 export type EFC<T> = FC<Partial<T & ContainerProps>>;
 
-export const lower = (name: string) => name.charAt(0).toLowerCase() + name.slice(1);
+export const lower = (name: string) =>
+  name.charAt(0).toLowerCase() + name.slice(1);
 
 function defaultType(name: string) {
   // @ts-ignore

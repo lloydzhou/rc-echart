@@ -23,7 +23,7 @@ export const ZAxis3D: EFC<GlobeProps> = defineComponent<GlobeProps>(
 );
 
 function define3DSeries<T>(name: string) {
-  return defineComponent<T>(name, "", "series")
+  return defineComponent<T>(name, "", "series");
 }
 
 export const Scatter3D: EFC<GlobeProps> =
