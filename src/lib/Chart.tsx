@@ -26,6 +26,7 @@ interface ChartProps {
   theme: string | object;
   notMerge: boolean;
   lazyUpdate: boolean;
+  group?: string;
 }
 
 export const Chart = forwardRef<
