@@ -34,8 +34,8 @@ yarn add tsxecharts echarts
 
 
 ## DEMO
-[online demo](https://codesandbox.io/s/tsxecharts-demo-r9wi86?file=/src/App.tsx)
-[echarts-gl demo](https://codesandbox.io/s/tsxecharts-gl-demo-n20g3n?file=/src/App.tsx)
+[online demo](https://codesandbox.io/s/tsxecharts-demo-r9wi86?file=/src/App.tsx)  
+[echarts-gl demo](https://codesandbox.io/s/tsxecharts-gl-demo-n20g3n?file=/src/App.tsx)  
 
 ```
 import 'echarts'
