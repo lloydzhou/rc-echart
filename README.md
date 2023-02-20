@@ -30,6 +30,7 @@ yarn add tsxecharts echarts
 |visualMap|`VisualMap`, `Continuous`, `Piecewise`|
 |graphic|`Graphic`, `Group`, `Image`, `Text`, `Rect`, `Circle`, `Ring`, `Sector`, `Arc`, `Polygon`, `Polyline`, `GraphicLine`(`graphic.elements-line`), `BezierCurve`|
 |other|`Title`, `Legend`, `Grid`, `Tooltip`, `AxisPointer`, `Toolbox`, `Brush`, `Geo`, `Timeline`, `Dataset`, `Aria`|
+|gl|`Globe`, `Geo3d`, `Mapbox3d`, `Grid3D`, `XAxis3D`, `YAxis3D`, `ZAxis3D`, `Scatter3D`, `Bar3D`, `Line3D`, `Lines3D`, `Map3D`, `Surface`, `Polygons3D`, `ScatterGL`, `GraphGL`, `FlowGL`|
 
 
 
