@@ -22,16 +22,20 @@ export const ZAxis3D: EFC<GlobeProps> = defineComponent<GlobeProps>(
   "value"
 );
 
+function define3DSeries<T>(name: string) {
+  return defineComponent<T>(name, "", "series")
+}
+
 export const Scatter3D: EFC<GlobeProps> =
-  defineComponent<GlobeProps>("Scatter3D");
-export const Bar3D: EFC<GlobeProps> = defineComponent<GlobeProps>("Bar3D");
-export const Line3D: EFC<GlobeProps> = defineComponent<GlobeProps>("Line3D");
-export const Lines3D: EFC<GlobeProps> = defineComponent<GlobeProps>("Lines3D");
-export const Map3D: EFC<GlobeProps> = defineComponent<GlobeProps>("Map3D");
-export const Surface: EFC<GlobeProps> = defineComponent<GlobeProps>("Surface");
+  define3DSeries<GlobeProps>("Scatter3D");
+export const Bar3D: EFC<GlobeProps> = define3DSeries<GlobeProps>("Bar3D");
+export const Line3D: EFC<GlobeProps> = define3DSeries<GlobeProps>("Line3D");
+export const Lines3D: EFC<GlobeProps> = define3DSeries<GlobeProps>("Lines3D");
+export const Map3D: EFC<GlobeProps> = define3DSeries<GlobeProps>("Map3D");
+export const Surface: EFC<GlobeProps> = define3DSeries<GlobeProps>("Surface");
 export const Polygons3D: EFC<GlobeProps> =
-  defineComponent<GlobeProps>("Polygons3D");
+  define3DSeries<GlobeProps>("Polygons3D");
 export const ScatterGL: EFC<GlobeProps> =
-  defineComponent<GlobeProps>("ScatterGL");
-export const GraphGL: EFC<GlobeProps> = defineComponent<GlobeProps>("GraphGL");
-export const FlowGL: EFC<GlobeProps> = defineComponent<GlobeProps>("FlowGL");
+  define3DSeries<GlobeProps>("ScatterGL");
+export const GraphGL: EFC<GlobeProps> = define3DSeries<GlobeProps>("GraphGL");
+export const FlowGL: EFC<GlobeProps> = define3DSeries<GlobeProps>("FlowGL");

@@ -19,7 +19,7 @@ import {
   Rect,
   Text,
 } from "./lib";
-import { XAxis3D, YAxis3D, ZAxis3D, Grid3D, Surface, Bar3D } from "./lib";
+import { XAxis3D, YAxis3D, ZAxis3D, Grid3D, Surface } from "./lib";
 
 import { ECharts } from "echarts/core";
 
@@ -394,13 +394,14 @@ function App() {
           min={-1}
           max={1}
         />
-        <XAxis3D data={hours} />
-        <YAxis3D data={days} />
-        <ZAxis3D />
-        <Grid3D boxHeight={40} />
-        <Bar3D
-          data={data.map((i) => ({ value: [i[1], i[0], i[2]] }))}
-          shading="lambert"
+        <XAxis3D />
+        <YAxis3D />
+        <ZAxis3D max={1} splitNumber={2} />
+        <Grid3D boxHeight={40} viewControl={{}} />
+        <Surface
+          wireframe={{show: false}}
+          shading="color"
+          equation={equation}
         />
       </Chart>
     </div>
