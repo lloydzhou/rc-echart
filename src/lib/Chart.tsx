@@ -71,7 +71,9 @@ export const Chart = forwardRef<
     // @ts-ignore
     options.current[key].push(option);
     // 3. 增加replaceMerge
-    replaceMerge.current.add(key);
+    if (process.env.NODE_ENV === "production") {
+      replaceMerge.current.add(key);
+    }
     // 4. 提交更新到echarts
     commit();
   };
