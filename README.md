@@ -35,7 +35,6 @@ yarn add tsxecharts echarts
 
 ## DEMO
 [online demo](https://codesandbox.io/s/tsxecharts-demo-r9wi86?file=/src/App.tsx)  
-[echarts-gl demo](https://codesandbox.io/s/tsxecharts-gl-demo-n20g3n?file=/src/App.tsx)  
 
 ```
 import 'echarts'
@@ -114,5 +113,11 @@ function App() {
 ```
 
 ![](https://fastly.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data/thumb/treemap-sunburst-transition.webp?_v_=1655181358610)
+
+## echarts-gl demo
+[echarts-gl demo](https://codesandbox.io/s/tsxecharts-gl-demo-n20g3n?file=/src/App.tsx)  
+
+![image](https://user-images.githubusercontent.com/1826685/220146605-23cda247-4d5f-400e-8d09-10b44f3cef24.png)
+
 
 
