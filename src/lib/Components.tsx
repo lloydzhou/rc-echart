@@ -60,7 +60,6 @@ import {
   GraphicComponentZRPathOption,
   GraphicComponentImageOption,
   GraphicComponentTextOption,
-  GraphicComponentDisplayableOption,
 } from "echarts/types/src/component/graphic/GraphicModel";
 import { ParallelAxisOption } from "echarts/types/src/coord/parallel/AxisModel";
 import { throttle } from "echarts/core";
@@ -73,8 +72,6 @@ import {
   useRef,
 } from "react";
 import { ChartContext, useChartContext } from "./Chart";
-import { TransitionOptionMixin } from "echarts/types/src/animation/customGraphicTransition";
-import { ElementKeyframeAnimationOption } from "echarts/types/src/animation/customGraphicKeyframeAnimation";
 
 export const uniqueId = () =>
   Date.now().toString(36) + Math.random().toString(36).substring(2);

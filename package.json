@@ -1,6 +1,6 @@
 {
   "name": "tsxecharts",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "React component wrapper for ECharts based on TypeScript.",
   "repository": {
     "type": "git",
@@ -15,7 +15,8 @@
     "react",
     "typescript",
     "tsx",
-    "echarts"
+    "echarts",
+    "echarts-gl"
   ],
   "files": [
     "lib"
@@ -31,6 +32,7 @@
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
     "echarts": "^5.4.1",
+    "echarts-gl": "^2.0.9",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.2",
     "prettier": "^2.7.1",
@@ -43,6 +45,7 @@
   },
   "peerDependencies": {
     "echarts": "^5.4.1",
+    "echarts-gl": "^2.0.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "resize-detector": "^0.3.0"
