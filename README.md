@@ -39,7 +39,6 @@ yarn add tsxecharts echarts
 
 ```
 import 'echarts'
-import Echarts from 'vuecharts3'
 import { Chart, Line, Bar, Title, Grid, XAxis, YAxis, Tooltip } from 'tsxecharts'
 
 function App() {
