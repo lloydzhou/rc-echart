@@ -18,8 +18,8 @@ import {
   Group,
   Rect,
   Text,
-} from "./lib";
-import { XAxis3D, YAxis3D, ZAxis3D, Grid3D, Surface } from "./lib";
+} from "../src";
+import { XAxis3D, YAxis3D, ZAxis3D, Grid3D, Surface } from "../src";
 
 import { ECharts } from "echarts/core";
 
