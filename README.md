@@ -1,9 +1,9 @@
-# tsxecharts
+# rc-echart
 React component wrapper for [Apache ECharts](https://github.com/apache/echarts) based on TypeScript.  
-<a href="https://www.npmjs.com/package/tsxecharts"><img alt="NPM Package" src="https://img.shields.io/npm/v/tsxecharts.svg?style=flat-square"></a>
-<a href="https://www.npmjs.com/package/tsxecharts"><img alt="NPM Size" src="https://img.shields.io/bundlephobia/minzip/tsxecharts"></a>
-<a href="https://www.npmjs.com/package/tsxecharts"><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/tsxecharts?logo=npm&style=flat-square"></a>
-<a href="/LICENSE"><img src="https://img.shields.io/github/license/lloydzhou/tsxecharts?style=flat-square" alt="MIT License"></a>
+<a href="https://www.npmjs.com/package/rc-echart"><img alt="NPM Package" src="https://img.shields.io/npm/v/rc-echart.svg?style=flat-square"></a>
+<a href="https://www.npmjs.com/package/rc-echart"><img alt="NPM Size" src="https://img.shields.io/bundlephobia/minzip/rc-echart"></a>
+<a href="https://www.npmjs.com/package/rc-echart"><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/rc-echart?logo=npm&style=flat-square"></a>
+<a href="/LICENSE"><img src="https://img.shields.io/github/license/lloydzhou/rc-echart?style=flat-square" alt="MIT License"></a>
 
 ## 项目设计
 1. 参考[vuecharts3](https://github.com/lloydzhou/vuecharts)对echarts进行封装
@@ -13,7 +13,7 @@ React component wrapper for [Apache ECharts](https://github.com/apache/echarts) 
 
 ## 安装
 ```
-yarn add tsxecharts echarts
+yarn add rc-echart echarts
 ```
 
 ## Components
@@ -39,7 +39,7 @@ yarn add tsxecharts echarts
 
 ```
 import 'echarts'
-import { Chart, Line, Bar, Title, Grid, XAxis, YAxis, Tooltip } from 'tsxecharts'
+import { Chart, Line, Bar, Title, Grid, XAxis, YAxis, Tooltip } from 'rc-echart'
 
 function App() {
 
